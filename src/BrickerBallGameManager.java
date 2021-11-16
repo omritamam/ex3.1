@@ -1,4 +1,7 @@
 import danogl.GameManager;
+import danogl.GameObject;
+import danogl.gui.*;
+import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 public class BrickerBallGameManager extends GameManager {
 
@@ -9,6 +12,7 @@ public class BrickerBallGameManager extends GameManager {
       windowDimensions - pixel dimensions for game window height x width
       */
         public BrickerBallGameManager(String windowTitle, Vector2 windowDimensions){
+                super(windowTitle, windowDimensions);
         }
         /*       Calling this function should initialize the game window. It should initialize objects in the game window - ball, paddle, walls, life counters, bricks.
 /        This version of the game has 5 rows, 8 columns of bricks.
@@ -20,11 +24,19 @@ public class BrickerBallGameManager extends GameManager {
 /        inputListener - an InputListener instance for reading user input.
 /         windowController - controls visual rendering of the game window and object renderables.
  */
-        public void initializeGame(danogl.gui.ImageReader imageReader,
-                                   danogl.gui.SoundReader soundReader,
-                                   danogl.gui.UserInputListener inputListener,
-                                   danogl.gui.WindowController windowController){
-
+        @Override
+        public void initializeGame(ImageReader imageReader,
+                                         SoundReader soundReader, UserInputListener inputListener,
+                                         WindowController windowController){
+        super.initializeGame(imageReader,soundReader, inputListener,windowController);
+        //ball
+        Renderable ballImage= imageReader.readImage("assets/ball.png", true);
+        GameObject ball = new GameObject(Vector2.ZERO,new Vector2(50,50),ballImage);
+        Vector2 windowDimensions = windowController.getWindowDimensions();
+       // ball.setCenter(windowDimensions.mult(0.5F));
+        //ball.setVelocity(Vector2.DOWN.mult(100));
+        gameObjects().addGameObject(ball);
+        gameObjects().isLayerEmpty(0);
         }
 
         /*
@@ -47,6 +59,6 @@ Parameters:
 args -
  */
 public static void main(String[] args) {
-        new GameManager("Bricker", new Vector2(700, 500)).run();
+        new BrickerBallGameManager("Bicker", new Vector2(1000, 800)).run();
         }
 }
