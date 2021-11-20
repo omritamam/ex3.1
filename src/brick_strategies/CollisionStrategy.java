@@ -1,6 +1,9 @@
 package brick_strategies;
+import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
+import danogl.util.Counter;
 
 public class CollisionStrategy {
-    public CollisionStrategy(danogl.collisions.GameObjectCollection gameObjectCollection){}
-    public void onCollision(danogl.GameObject thisObj, danogl.GameObject otherObj, danogl.util.Counter counter){}
+    public CollisionStrategy(GameObjectCollection gameObjectCollection){}
+    public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter){}
 }

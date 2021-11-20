@@ -1,7 +1,7 @@
 package brick_strategies;
 
 public class NumericLifeCounter {
-    /*
+    /**
     Constructor
     Parameters:
         livesCounter - global lives counter of game.
@@ -13,7 +13,7 @@ public class NumericLifeCounter {
                                danogl.util.Vector2 topLeftCorner,
                                danogl.util.Vector2 dimensions,
                                danogl.collisions.GameObjectCollection gameObjectCollection){}
-    /*
+    /**
     Overrides: update in class danogl.GameObject
     Parameters:
     deltaTime -
