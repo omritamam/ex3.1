@@ -8,24 +8,26 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-
 import java.awt.*;
 
 public class BouncingBallGameManager extends GameManager {
 
         public static final int BORDER_WIDTH = 10;
-        public static final int BALL_SPEED = 300;
+        public static final int BALL_SPEED = 450;
         public static final int PADDLE_MARGIN = 30;
         public static final int PADDLE_WIDTH = 200;
-        public static final int PADDLE_HEIGHT = 20;
+        public static final int PADDLE_HEIGHT = 50;
+        public static final int HEART_WIDTH = 50;
+        public static final int HEART_HEIGHT = 50;
         public static final int BALL_RADIUS = 50;
         public static final Color WALL_COLOR = Color.CYAN;
         public static final int INITIAL_HEARTS = 3;
         public static final int BRICK_MARGIN=10;
         public static final int BRICK_SPACING=5;
-        public static final int ROWS = 8;
-        public static final int COLS = 5;
+        public static final int ROWS = 3; //4
+        public static final int COLS = 5; //3
         public static final int COUNTER_SIZE = 50;
+        public static final float BRICK_HEIGHT = 20;
 
         private Ball ball;
         private Vector2 windowDimensions;
@@ -33,7 +35,8 @@ public class BouncingBallGameManager extends GameManager {
         private SoundReader soundReader;
         private UserInputListener inputListener;
         private WindowController windowController;
-        private Counter counter = new Counter(INITIAL_HEARTS);
+        private Counter brickCounter;
+        private Counter heartCounter;
 
         /**
          Parameters:
@@ -65,22 +68,38 @@ public class BouncingBallGameManager extends GameManager {
                 windowDimensions = windowController.getWindowDimensions();
                 windowController.setTargetFramerate(200);
 
-
+                initCounters();
                 createBall();
                 Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
                 createUserPaddle(paddleImage);
-                //createAIPaddle(paddleImage);
                 createWalls();
                 createBackground();
                 createBricks(ROWS, COLS);
                 createNumericLifeCounter();
+                createGraphicLifeCounter();
+        }
 
+        private void initCounters() {
+                brickCounter = new Counter(ROWS*COLS);
+                heartCounter = new Counter(INITIAL_HEARTS);
+        }
 
+        private void createGraphicLifeCounter() {
+                Renderable heartImage = imageReader.readImage("assets/heart.png", true);
+
+                GameObject GraphicLifeCounter = new GraphicLifeCounter(
+                        new Vector2(windowDimensions.x()-INITIAL_HEARTS*HEART_WIDTH-BORDER_WIDTH,0),
+                        new Vector2(HEART_WIDTH, HEART_HEIGHT),
+                        heartCounter,
+                        heartImage,
+                        gameObjects(),
+                        INITIAL_HEARTS);
+                gameObjects().addGameObject(GraphicLifeCounter, Layer.FOREGROUND);
         }
 
         private void createNumericLifeCounter() {
                 GameObject NumericLifeCounter = new NumericLifeCounter(
-                        counter,
+                        heartCounter,
                         new Vector2(BORDER_WIDTH,0),
                         new Vector2(COUNTER_SIZE, COUNTER_SIZE),
                         gameObjects());
@@ -94,16 +113,14 @@ public class BouncingBallGameManager extends GameManager {
                         for(int col =0; col<cols;col++){
                                 GameObject brick = new Brick(
                                         new Vector2(BRICK_MARGIN+col*(brick_wight+BRICK_SPACING),
-                                                row*(15+BRICK_SPACING)),
-                                        new Vector2(brick_wight,15),
+                                                row*(BRICK_HEIGHT +BRICK_SPACING)+HEART_HEIGHT+BORDER_WIDTH),
+                                        new Vector2(brick_wight, BRICK_HEIGHT),
                                         brickImage,
                                         new CollisionStrategy(gameObjects()),
-                                       counter);
+                                        brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
                 }
-
-
         }
 
         private void createBackground() {
@@ -127,6 +144,12 @@ public class BouncingBallGameManager extends GameManager {
                                         new RectangleRenderable(WALL_COLOR))
                         );
                 }
+                gameObjects().addGameObject(
+                        new GameObject(
+                                new Vector2(0,Math.max(HEART_HEIGHT,COUNTER_SIZE)),
+                                new Vector2(windowDimensions.x(),BORDER_WIDTH),
+                                new RectangleRenderable(WALL_COLOR))
+                );
         }
 
         private void createUserPaddle(Renderable paddleImage) {
@@ -153,37 +176,52 @@ public class BouncingBallGameManager extends GameManager {
         }
 
         /**
-        Code in this function is run every frame update.
-        Overrides:
-        update in class danogl.GameManager
-        Parameters:
-        deltaTime - time between updates. For internal use by game engine. You do not need to call this method yourself.
+         * Code in this function is run every frame update.
+         * Overrides:
+         * update in class danogl.GameManager
+         *
+         * @param deltaTime The time, in seconds, that passed since the last invocation
+         *                  of this method (i.e., since the last frame). This is useful
+         *                  for either accumulating the total time that passed since some
+         *                  event, or for physics integration (i.e., multiply this by
+         *                  the acceleration to get an estimate of the added velocity or
          */
         public void update(float deltaTime){
                 super.update(deltaTime);
                 isGameEnded();
         }
 
+        /**
+         * checks if the player wins/loses and invokes corresponding methods
+         */
         private void isGameEnded() {
                 double ballHeight = ball.getCenter().y();
-                if(ballHeight<0){
+                if(brickCounter.value()==0){
                         GameEnded("You win!, play again?");
                 }
-                if(ballHeight > windowDimensions.y()) {
-                        counter.decrement();
+                else if(ballHeight > windowDimensions.y()) {
+                        heartCounter.decrement();
                         ResetBall();
                 }
-                if(counter.value()==-1){
+                if(heartCounter.value()==-1){
                         GameEnded("You lose!, play again?");
                 }
         }
 
+        /**
+         * locates the ball in the center with velocity down.
+         */
         private void ResetBall() {
                 ball.setCenter(windowDimensions.mult(0.5F));
-                ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));        }
+                ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));
+        }
 
-        private void GameEnded(String prompt) {
-                if(windowController.openYesNoDialog(prompt)){
+        /**
+         *
+         * @param message - a message to present
+         */
+        private void GameEnded(String message) {
+                if(windowController.openYesNoDialog(message)){
                         windowController.resetGame();
                 }
                 else {
@@ -192,12 +230,12 @@ public class BouncingBallGameManager extends GameManager {
         }
 
         /**
-        Entry point for game. Should contain:
-        1. An instantiation call to BrickerGameManager constructor.
-        2. A call to run() method of instance of BrickerGameManager.
-        Should initialize game window of dimensions (x,y) = (700,500).
-        Parameters:
-        args -
+         *      Entry point for game. Should contain:
+         *      1. An instantiation call to BrickerGameManager constructor.
+         *      2. A call to run() method of instance of BrickerGameManager.
+         *      Should initialize game window of dimensions (x,y) = (700,500).
+         *
+         * @param args - NONE
          */
         public static void main(String[] args) {
         new BouncingBallGameManager("Bouncing Ball", new Vector2(1000, 800)).run();
