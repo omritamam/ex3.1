@@ -79,12 +79,12 @@ public class BouncingBallGameManager extends GameManager {
         }
 
         private void createNumericLifeCounter() {
-                GameObject brick = new NumericLifeCounter(
+                GameObject NumericLifeCounter = new NumericLifeCounter(
                         counter,
                         new Vector2(BORDER_WIDTH,0),
                         new Vector2(COUNTER_SIZE, COUNTER_SIZE),
                         gameObjects());
-                gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
+                gameObjects().addGameObject(NumericLifeCounter, Layer.STATIC_OBJECTS);
         }
 
         private void createBricks(int rows, int cols) {

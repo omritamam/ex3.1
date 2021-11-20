@@ -1,11 +1,15 @@
 package brick_strategies;
 
+import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 
-public class GraphicLifeCounter {
+public class GraphicLifeCounter  extends GameObject {
+    private Counter livesCounter;
+    private GameObjectCollection gameObjectsCollection;
+
     /**
     Constructor
     Parameters:
@@ -22,11 +26,22 @@ public class GraphicLifeCounter {
                                Counter livesCounter,
                                Renderable widgetRenderable,
                                GameObjectCollection gameObjectsCollection,
-                               int numOfLives){}
+                               int numOfLives){
+        super(widgetTopLeftCorner,widgetDimensions,widgetRenderable);
+
+        this.livesCounter = livesCounter;
+        this.gameObjectsCollection = gameObjectsCollection;
+    }
+
+
+
+
     /**
     Overrides: update in class danogl.GameObject
     Parameters:
     deltaTime -
      */
-    public void update(float deltaTime){}
-}
+    @Override
+    public void update(float deltaTime){
+        super.update(deltaTime);
+    }}

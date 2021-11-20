@@ -2,7 +2,6 @@ package brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
-import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 
@@ -22,7 +21,7 @@ public class NumericLifeCounter  extends GameObject {
                                Vector2 topLeftCorner,
                                Vector2 dimensions,
                                GameObjectCollection gameObjectCollection){
-        super(topLeftCorner, dimensions, new TextRenderable(String.valueOf(livesCounter.value())));
+        super(topLeftCorner, dimensions, new CounterRenderer(livesCounter));
 
         this.livesCounter = livesCounter;
         this.gameObjectCollection = gameObjectCollection;
@@ -37,9 +36,7 @@ public class NumericLifeCounter  extends GameObject {
     public void update(float deltaTime){
         super.update(deltaTime);
 
-        if(livesCounter.value()==-1){
-            gameObjectCollection.removeGameObject(this);
-        }
+
     }
 
 
