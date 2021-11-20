@@ -5,11 +5,12 @@ import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
-import java.awt.event.KeyEvent;
-
 public class Paddle extends GameObject {
-    private static final float MOVEMENT_SPEED = 300;
-    private UserInputListener inputListener;
+    //TODO: ask about protected
+    protected static final float MOVEMENT_SPEED = 300;
+    protected final UserInputListener inputListener;
+    protected final Vector2  windowDimensions;
+    protected final int minDistanceFromEdge;
 
     /**
         Construct a new GameObject instance.
@@ -27,6 +28,8 @@ public class Paddle extends GameObject {
                    int minDistanceFromEdge){
         super(topLeftCorner,dimensions,renderable);
         this.inputListener = inputListener;
+        this.windowDimensions = windowDimensions;
+        this.minDistanceFromEdge = minDistanceFromEdge;
     }
     /**
     Overrides: update in class danogl.GameObject
@@ -35,13 +38,15 @@ public class Paddle extends GameObject {
      */
     public void update(float deltaTime){
         super.update(deltaTime);
-        Vector2 movementDir = Vector2.ZERO;
-        if(inputListener.isKeyPressed((KeyEvent.VK_LEFT))){
-            movementDir = movementDir.add(Vector2.LEFT.mult(MOVEMENT_SPEED));
+        float topLeftCorner = getTopLeftCorner().x();
+        if(topLeftCorner<minDistanceFromEdge){
+            transform().setTopLeftCorner(minDistanceFromEdge, transform().getTopLeftCorner().y());
         }
-        if(inputListener.isKeyPressed((KeyEvent.VK_RIGHT))){
-            movementDir = movementDir.add(Vector2.RIGHT.mult(MOVEMENT_SPEED));
+        else if(topLeftCorner>windowDimensions.x() - minDistanceFromEdge - getDimensions().x()) {
+
+            transform().setTopLeftCorner(windowDimensions.x() - minDistanceFromEdge - getDimensions().x(),
+                    transform().getTopLeftCorner().y());
+
         }
-        setVelocity(movementDir);
     }
 }

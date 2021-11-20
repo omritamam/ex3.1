@@ -1,20 +1,32 @@
+import brick_strategies.AIPaddle;
 import brick_strategies.Ball;
 import brick_strategies.Paddle;
+import brick_strategies.UserPaddle;
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.collisions.Layer;
+import danogl.components.CoordinateSpace;
 import danogl.gui.*;
+import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+
+import java.awt.*;
+
 public class BouncingBallGameManager extends GameManager {
 
-        public static final int BORDER_WIDTH = 5;
-        public static final int BALL_SPEED = 100;
+        public static final int BORDER_WIDTH = 10;
+        public static final int BALL_SPEED = 300;
         public static final int PADDLE_MARGIN = 30;
         public static final int PADDLE_WIDTH = 200;
         public static final int PADDLE_HEIGHT = 20;
         public static final int BALL_RADIUS = 50;
+        public static final Color WALL_COLOR = Color.CYAN;
         private Ball ball;
         private Vector2 windowDimensions;
+        private ImageReader imageReader;
+        private SoundReader soundReader;
+        private UserInputListener inputListener;
         private WindowController windowController;
 
         /**
@@ -39,29 +51,55 @@ public class BouncingBallGameManager extends GameManager {
         public void initializeGame(ImageReader imageReader,
                                          SoundReader soundReader, UserInputListener inputListener,
                                          WindowController windowController){
-                this.windowController = windowController;
                 super.initializeGame(imageReader,soundReader, inputListener,windowController);
-                windowController.setTargetFramerate(200);
-                //ball
+                this.imageReader = imageReader;
+                this.soundReader = soundReader;
+                this.inputListener = inputListener;
+                this.windowController = windowController;
                 windowDimensions = windowController.getWindowDimensions();
-                createBall(imageReader, soundReader);
+                windowController.setTargetFramerate(200);
 
 
-                //paddles
-                Renderable paddleImage= imageReader.readImage("assets/paddle.png", true);
-                //user paddle
-                createUserPaddle(inputListener, paddleImage);
+                createBall();
+                Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
+                createUserPaddle(paddleImage);
                 createAIPaddle(paddleImage);
+                createWalls();
+                createBackground();
 
         }
 
-        private void createUserPaddle(UserInputListener inputListener, Renderable paddleImage) {
-                Paddle userPaddle = new Paddle(Vector2.ZERO, new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT), paddleImage, inputListener,windowDimensions,PADDLE_MARGIN);
+        private void createBackground() {
+                GameObject background = new GameObject(
+                        Vector2.ZERO,
+                        windowController.getWindowDimensions(),
+                        imageReader.readImage("assets/DARK_BG2_small.jpeg", false));
+                background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
+                gameObjects().addGameObject(background, Layer.BACKGROUND);
+        }
+
+        private void createWalls() {
+                Vector2[] topLeftCorners=new Vector2[]{Vector2.ZERO,
+                        new Vector2(windowDimensions.x()-BORDER_WIDTH,0)};
+                for(Vector2 topLeftCorner : topLeftCorners)
+                {
+                        gameObjects().addGameObject(
+                                new GameObject(
+                                        topLeftCorner,
+                                        new Vector2(BORDER_WIDTH, windowDimensions.y()),
+                                        new RectangleRenderable(WALL_COLOR))
+                        );
+                }
+        }
+
+        private void createUserPaddle(Renderable paddleImage) {
+                Paddle userPaddle = new UserPaddle(Vector2.ZERO, new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT), paddleImage,
+                        inputListener,windowDimensions,PADDLE_MARGIN);
                 userPaddle.setCenter(new Vector2(windowDimensions.x()/2, windowDimensions.y()-PADDLE_MARGIN));
                 gameObjects().addGameObject(userPaddle);
         }
 
-        private void createBall(ImageReader imageReader, SoundReader soundReader) {
+        private void createBall(){
                 Renderable ballImage= imageReader.readImage("assets/ball.png", true);
                 Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
                 ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
@@ -71,7 +109,8 @@ public class BouncingBallGameManager extends GameManager {
         }
 
         private void createAIPaddle(Renderable paddleImage) {
-                GameObject aiPaddle = new GameObject(Vector2.ZERO, new Vector2(PADDLE_WIDTH, PADDLE_HEIGHT), paddleImage);
+                GameObject aiPaddle = new AIPaddle(Vector2.ZERO, new Vector2(PADDLE_WIDTH, PADDLE_HEIGHT), paddleImage,
+                        inputListener,windowDimensions,PADDLE_MARGIN,ball);
                 aiPaddle.setCenter(new Vector2(windowDimensions.x()/2, PADDLE_MARGIN));
                 gameObjects().addGameObject(aiPaddle);
         }
