@@ -1,7 +1,4 @@
-import brick_strategies.AIPaddle;
-import brick_strategies.Ball;
-import brick_strategies.Paddle;
-import brick_strategies.UserPaddle;
+import brick_strategies.*;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -9,6 +6,7 @@ import danogl.components.CoordinateSpace;
 import danogl.gui.*;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 import java.awt.*;
@@ -22,12 +20,20 @@ public class BouncingBallGameManager extends GameManager {
         public static final int PADDLE_HEIGHT = 20;
         public static final int BALL_RADIUS = 50;
         public static final Color WALL_COLOR = Color.CYAN;
+        public static final int INITIAL_HEARTS = 3;
+        public static final int BRICK_MARGIN=10;
+        public static final int BRICK_SPACING=5;
+        public static final int ROWS = 8;
+        public static final int COLS = 5;
+        public static final int COUNTER_SIZE = 50;
+
         private Ball ball;
         private Vector2 windowDimensions;
         private ImageReader imageReader;
         private SoundReader soundReader;
         private UserInputListener inputListener;
         private WindowController windowController;
+        private Counter counter = new Counter(INITIAL_HEARTS);
 
         /**
          Parameters:
@@ -63,9 +69,40 @@ public class BouncingBallGameManager extends GameManager {
                 createBall();
                 Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
                 createUserPaddle(paddleImage);
-                createAIPaddle(paddleImage);
+                //createAIPaddle(paddleImage);
                 createWalls();
                 createBackground();
+                createBricks(ROWS, COLS);
+                createNumericLifeCounter();
+
+
+        }
+
+        private void createNumericLifeCounter() {
+                GameObject brick = new NumericLifeCounter(
+                        counter,
+                        new Vector2(BORDER_WIDTH,0),
+                        new Vector2(COUNTER_SIZE, COUNTER_SIZE),
+                        gameObjects());
+                gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
+        }
+
+        private void createBricks(int rows, int cols) {
+                Renderable brickImage = imageReader.readImage("assets/brick.png", true);
+                float brick_wight = (windowDimensions.x()-(cols-1)*BRICK_SPACING-2*BRICK_MARGIN)/cols;
+                for(int row=0; row<rows;row++){
+                        for(int col =0; col<cols;col++){
+                                GameObject brick = new Brick(
+                                        new Vector2(BRICK_MARGIN+col*(brick_wight+BRICK_SPACING),
+                                                row*(15+BRICK_SPACING)),
+                                        new Vector2(brick_wight,15),
+                                        brickImage,
+                                        new CollisionStrategy(gameObjects()),
+                                       counter);
+                                gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
+                        }
+                }
+
 
         }
 
@@ -103,9 +140,9 @@ public class BouncingBallGameManager extends GameManager {
                 Renderable ballImage= imageReader.readImage("assets/ball.png", true);
                 Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
                 ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
-                ball.setCenter(windowDimensions.mult(0.5F));
-                ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));
                 gameObjects().addGameObject(ball);
+                ResetBall();
+
         }
 
         private void createAIPaddle(Renderable paddleImage) {
@@ -129,22 +166,28 @@ public class BouncingBallGameManager extends GameManager {
 
         private void isGameEnded() {
                 double ballHeight = ball.getCenter().y();
-                String prompt="";
                 if(ballHeight<0){
-                        prompt=" You win!";
+                        GameEnded("You win!, play again?");
                 }
-                if(ballHeight> windowDimensions.y()){
-                        prompt=" You lost!";
+                if(ballHeight > windowDimensions.y()) {
+                        counter.decrement();
+                        ResetBall();
+                }
+                if(counter.value()==-1){
+                        GameEnded("You lose!, play again?");
+                }
+        }
 
+        private void ResetBall() {
+                ball.setCenter(windowDimensions.mult(0.5F));
+                ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));        }
+
+        private void GameEnded(String prompt) {
+                if(windowController.openYesNoDialog(prompt)){
+                        windowController.resetGame();
                 }
-                if(!prompt.isEmpty()){
-                        prompt+=" play again?";
-                        if(windowController.openYesNoDialog(prompt)){
-                                windowController.resetGame();
-                        }
-                        else {
-                                windowController.closeWindow();
-                        }
+                else {
+                        windowController.closeWindow();
                 }
         }
 

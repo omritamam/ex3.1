@@ -1,6 +1,15 @@
 package brick_strategies;
 
-public class NumericLifeCounter {
+import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
+import danogl.gui.rendering.TextRenderable;
+import danogl.util.Counter;
+import danogl.util.Vector2;
+
+public class NumericLifeCounter  extends GameObject {
+    private final Counter livesCounter;
+    private final GameObjectCollection gameObjectCollection;
+
     /**
     Constructor
     Parameters:
@@ -9,16 +18,29 @@ public class NumericLifeCounter {
         dimensions - dimensions of renderable
         gameObjectCollection - global game object collection
      */
-    public NumericLifeCounter(danogl.util.Counter livesCounter,
-                               danogl.util.Vector2 topLeftCorner,
-                               danogl.util.Vector2 dimensions,
-                               danogl.collisions.GameObjectCollection gameObjectCollection){}
+    public NumericLifeCounter( Counter livesCounter,
+                               Vector2 topLeftCorner,
+                               Vector2 dimensions,
+                               GameObjectCollection gameObjectCollection){
+        super(topLeftCorner, dimensions, new TextRenderable(String.valueOf(livesCounter.value())));
+
+        this.livesCounter = livesCounter;
+        this.gameObjectCollection = gameObjectCollection;
+    }
+
     /**
     Overrides: update in class danogl.GameObject
     Parameters:
     deltaTime -
      */
-    public void update(float deltaTime){}
+    @Override
+    public void update(float deltaTime){
+        super.update(deltaTime);
+
+        if(livesCounter.value()==-1){
+            gameObjectCollection.removeGameObject(this);
+        }
+    }
 
 
 }
