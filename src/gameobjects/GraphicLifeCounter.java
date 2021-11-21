@@ -33,6 +33,7 @@ public class GraphicLifeCounter extends GameObject{
                                GameObjectCollection gameObjectsCollection,
                                int numOfLives){
         super(widgetTopLeftCorner,Vector2.ZERO,null);
+        super.setTag("GraphicLifeCounter");
         this.widgetDimensions = widgetDimensions;
         this.livesCounter = livesCounter;
         this.widgetRenderable = widgetRenderable;

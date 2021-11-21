@@ -23,6 +23,8 @@ public class UserPaddle extends Paddle{
      */
     public UserPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener, Vector2 windowDimensions, int minDistanceFromEdge) {
         super(topLeftCorner, dimensions, renderable, inputListener, windowDimensions, minDistanceFromEdge);
+        super.setTag("Paddle");
+
     }
 
     /**

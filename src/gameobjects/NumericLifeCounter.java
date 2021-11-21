@@ -19,6 +19,8 @@ public class NumericLifeCounter  extends GameObject {
                                Vector2 dimensions,
                                GameObjectCollection gameObjectCollection){
         super(topLeftCorner, dimensions, new CounterRenderer(livesCounter));
+        super.setTag("NumericLifeCounter");
+
     }
 
     /**

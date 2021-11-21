@@ -33,6 +33,8 @@ public class Paddle extends GameObject {
                    Vector2 windowDimensions,
                    int minDistanceFromEdge){
         super(topLeftCorner,dimensions,renderable);
+        super.setTag("Paddle");
+
         this.inputListener = inputListener;
         this.windowDimensions = windowDimensions;
         this.minDistanceFromEdge = minDistanceFromEdge;

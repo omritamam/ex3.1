@@ -21,6 +21,7 @@ public class Ball extends GameObject {
                 Renderable renderable,
                 Sound collisionSound){
         super(topLeftCorner, dimensions, renderable);
+        super.setTag("Ball");
         this.collisionSound = collisionSound;
     }
 
@@ -38,4 +39,5 @@ public class Ball extends GameObject {
         setVelocity(newVal);
         collisionSound.play();
     }
+
 }

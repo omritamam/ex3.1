@@ -25,6 +25,7 @@ public class Brick extends GameObject {
                  CollisionStrategy collisionStrategy,
                  Counter counter){
         super(topLeftCorner, dimensions,renderable);
+        super.setTag("Brick");
         this.collisionStrategy = collisionStrategy;
         this.counter = counter;
     }
