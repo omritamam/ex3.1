@@ -19,7 +19,7 @@ public class GraphicLifeCounter extends GameObject{
     /**
      * Constructor
      * @param widgetTopLeftCorner - top left corner of left most life widgets. Other widgets will be displayed to its right,
-     *         aligned in hight.
+     *         aligned in height.
      * @param widgetDimensions - dimensions of widgets to be displayed.
      * @param livesCounter - a global counter of current lives
      * @param widgetRenderable  - image to use for widgets.
@@ -44,11 +44,11 @@ public class GraphicLifeCounter extends GameObject{
     /**
      * creates a row of hearts
      * @param widgetTopLeftCorner - top left corner of left most life widgets. Other widgets will be displayed to its right,
-     *         aligned in hight.
+     *         aligned in height.
      * @param widgetDimensions - dimensions of widgets to be displayed.
      */
     private void initHearts(Vector2 widgetTopLeftCorner, Vector2 widgetDimensions) {
-        hearts = new ArrayList(numOfLives);
+        hearts = new ArrayList<>(numOfLives);
         for(int heartNum = 0; heartNum< numOfLives; heartNum++){
             hearts.add(initHeart(new Vector2(widgetTopLeftCorner.x()
                     + widgetDimensions.x()*heartNum, widgetTopLeftCorner.y())));
@@ -58,7 +58,7 @@ public class GraphicLifeCounter extends GameObject{
     /**
      * create a new heart in a given point
      * @param heartTopLeftCorner - top left corner of left most life widgets. Other widgets will be displayed to its right,
-     *         aligned in hight.
+     *         aligned in height.
      * @return the new heart
      */
     private GameObject initHeart(Vector2 heartTopLeftCorner) {
@@ -67,8 +67,6 @@ public class GraphicLifeCounter extends GameObject{
         gameObjectsCollection.addGameObject(heart, Layer.FOREGROUND);
         return heart;
     }
-
-
 
     /**
      * Overrides: update in class danogl.GameObject
@@ -89,4 +87,5 @@ public class GraphicLifeCounter extends GameObject{
             numOfLives--;
             gameObjectsCollection.removeGameObject(hearts.get(numOfLives), Layer.FOREGROUND);
         }
-    }}
+    }
+}

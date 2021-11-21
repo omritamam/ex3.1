@@ -39,7 +39,7 @@ public class Paddle extends GameObject {
     }
 
     /**
-     *
+     * method to run once a frame
      * @param deltaTime The time elapsed, in seconds, since the last frame. Can
      *                  be used to determine a new position/velocity by multiplying
      *                  this delta with the velocity/acceleration respectively

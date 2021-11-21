@@ -10,7 +10,7 @@ public class Brick extends GameObject {
     private final Counter counter;
 
     /**
-     *
+     * constructor
      * @param topLeftCorner -  Position of the object, in window coordinates (pixels). Note that (0,0) is the top-left corner of the window.
      *         dimensions - Width and height in window coordinates.
      * @param dimensions- Width and height in window coordinates.
@@ -29,7 +29,7 @@ public class Brick extends GameObject {
     }
 
     /**
-     *
+     * Called on the first frame of a collision.
      * @param other The GameObject with which a collision occurred.
      * @param collision Information regarding this collision.
      *                  A reasonable elastic behavior can be achieved with:
