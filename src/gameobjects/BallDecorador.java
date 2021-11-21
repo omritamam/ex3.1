@@ -4,6 +4,7 @@ import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import src.gameobjects.Ball;
 
 public class BallDecorador extends Ball {
     private Vector2 windowDimensions;

@@ -1,4 +1,4 @@
-package gameobjects;
+package src.gameobjects;
 
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;

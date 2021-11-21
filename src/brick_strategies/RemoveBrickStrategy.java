@@ -4,8 +4,9 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.util.Counter;
+import src.brick_strategies.CollisionStrategy;
 
-public class RemoveBrickStrategy implements CollisionStrategy{
+public class RemoveBrickStrategy implements CollisionStrategy {
     protected GameObjectCollection gameObjectCollection;
     /**
      * constructor

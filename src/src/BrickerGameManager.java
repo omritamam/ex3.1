@@ -1,4 +1,9 @@
-import brick_strategies.*;
+package src;
+import brick_strategies.BrickStrategyFactory;
+import brick_strategies.RemoveBrickStrategy;
+import brick_strategies.Strategy;
+import gameobjects.BallDecorador;
+import src.brick_strategies.*;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -8,7 +13,7 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.*;
+import src.gameobjects.*;
 
 import java.awt.*;
 
@@ -139,12 +144,13 @@ public class BrickerGameManager extends GameManager {
                 for(int row=0; row<rows;row++){
                         for(int col =0; col<cols;col++){
                                 GameObject brick = new Brick(
-                                        new Vector2(BRICK_MARGIN+col*(brick_wight+BRICK_SPACING),
-                                                row*(BRICK_HEIGHT +BRICK_SPACING)+HEART_HEIGHT+BORDER_WIDTH),
+                                        new Vector2(BRICK_MARGIN + col * (brick_wight + BRICK_SPACING),
+                                                row * (BRICK_HEIGHT + BRICK_SPACING) + HEART_HEIGHT + BORDER_WIDTH),
                                         new Vector2(brick_wight, BRICK_HEIGHT),
                                         brickImage,
                                         //todo: change to random
-                                        brickStrategyFactory.getStrategy(Strategy.Brick),
+                                        new RemoveBrickStrategy(gameObjects()),
+                                        // brickStrategyFactory.getStrategy(Strategy.Brick),
                                         brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
@@ -199,8 +205,7 @@ public class BrickerGameManager extends GameManager {
         private void createBall(){
                 Renderable ballImage= imageReader.readImage("assets/ball.png", true);
                 Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
-                ball = new BallDecorador(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound,
-                        windowDimensions,gameObjects());
+                ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
                 gameObjects().addGameObject(ball);
                 ball.setCenter(windowDimensions.mult(0.5F));
                 ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));

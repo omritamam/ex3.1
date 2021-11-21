@@ -5,6 +5,7 @@ import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.util.Vector2;
+import src.brick_strategies.CollisionStrategy;
 
 public class BrickStrategyFactory {
     private GameObjectCollection gameObjectCollection;

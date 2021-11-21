@@ -4,7 +4,6 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import gameobjects.Ball;
 
 public class RemoveBrickStrategyDecorator extends RemoveBrickStrategy {
 
