@@ -84,7 +84,8 @@ public class BrickerGameManager extends GameManager {
                 this.soundReader = soundReader;
                 this.inputListener = inputListener;
                 this.windowController = windowController;
-                //this.brickStrategyFactory = new BrickStrategyFactory(gameObjects());
+                this.brickStrategyFactory = new BrickStrategyFactory(gameObjects(),this,imageReader,
+                        soundReader,inputListener,windowController,windowDimensions);
                 windowDimensions = windowController.getWindowDimensions();
                 windowController.setTargetFramerate(200);
 
@@ -205,7 +206,8 @@ public class BrickerGameManager extends GameManager {
         private void createBall(){
                 Renderable ballImage= imageReader.readImage("assets/ball.png", true);
                 Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
-                ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
+                ball = new BallDecorador(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound,
+                        windowDimensions,gameObjects());
                 gameObjects().addGameObject(ball);
                 ball.setCenter(windowDimensions.mult(0.5F));
                 ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));

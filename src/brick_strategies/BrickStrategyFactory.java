@@ -5,12 +5,13 @@ import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.util.Vector2;
+import src.BrickerGameManager;
 import src.brick_strategies.CollisionStrategy;
 
 public class BrickStrategyFactory {
     private GameObjectCollection gameObjectCollection;
 
-    public BrickStrategyFactory(GameObjectCollection gameObjectCollection, //BrickerGameManager gameManager,
+    public BrickStrategyFactory(GameObjectCollection gameObjectCollection, BrickerGameManager gameManager,
                                 ImageReader imageReader, SoundReader soundReader,
                                 UserInputListener inputListener,
                                 WindowController windowController, Vector2 windowDimensions){

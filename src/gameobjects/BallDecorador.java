@@ -4,6 +4,7 @@ import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import src.brick_strategies.CollisionStrategy;
 import src.gameobjects.Ball;
 
 public class BallDecorador extends Ball {
@@ -24,6 +25,7 @@ public class BallDecorador extends Ball {
         this.windowDimensions = windowDimensions;
         this.objectCollection = objectCollection;
     }
+
 
     @Override
     public void update(float deltaTime) {
