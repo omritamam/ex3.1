@@ -6,7 +6,7 @@ import danogl.collisions.Layer;
 import danogl.util.Counter;
 
 public class RemoveBrickStrategy implements CollisionStrategy{
-    private GameObjectCollection gameObjectCollection;
+    protected GameObjectCollection gameObjectCollection;
     /**
      * constructor
      * @param gameObjectCollection - the global gameObects collections

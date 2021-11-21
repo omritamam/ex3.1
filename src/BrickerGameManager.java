@@ -56,7 +56,8 @@ public class BrickerGameManager extends GameManager {
         }
 
         /**
-         * Calling this function should initialize the game window. It should initialize objects in the game window - ball, paddle, walls, life counters, bricks.
+         * Calling this function should initialize the game window. It should initialize objects in the game window
+         * - ball, paddle, walls, life counters, bricks.
          *           This version of the game has 5 rows, 8 columns of bricks.
          * Overrides:  initializeGame in class danogl.GameManager
          * @param imageReader Contains a single method: readImage, which reads an image from disk.
@@ -78,7 +79,7 @@ public class BrickerGameManager extends GameManager {
                 this.soundReader = soundReader;
                 this.inputListener = inputListener;
                 this.windowController = windowController;
-                this.brickStrategyFactory = new BrickStrategyFactory(gameObjects());
+                //this.brickStrategyFactory = new BrickStrategyFactory(gameObjects());
                 windowDimensions = windowController.getWindowDimensions();
                 windowController.setTargetFramerate(200);
 
@@ -230,7 +231,7 @@ public class BrickerGameManager extends GameManager {
                 if(brickCounter.value()==0){
                         GameEnded("You win!, play again?");
                 }
-                else if(gameObjects().isLayerEmpty(0)) {
+                else if(gameObjects().isLayerEmpty(Layer.DEFAULT)){
                         heartCounter.decrement();
                         createBall();
 
@@ -239,8 +240,6 @@ public class BrickerGameManager extends GameManager {
                         GameEnded("You lose! play again?");
                 }
         }
-
-
 
         /**
          * game ended operation
@@ -260,6 +259,7 @@ public class BrickerGameManager extends GameManager {
          * @param args - NONE
          */
         public static void main(String[] args) {
-        new BrickerGameManager("Bouncing Ball", new Vector2(700, 500)).run();
+        new BrickerGameManager("Bouncing Ball",
+                new Vector2(700, 500)).run();
         }
 }
