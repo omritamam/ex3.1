@@ -6,38 +6,31 @@ import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class NumericLifeCounter  extends GameObject {
-    private final Counter livesCounter;
-    private final GameObjectCollection gameObjectCollection;
 
     /**
-    Constructor
-    Parameters:
-        livesCounter - global lives counter of game.
-        topLeftCorner - top left corner of renderable
-        dimensions - dimensions of renderable
-        gameObjectCollection - global game object collection
+     *     Constructor
+     * @param livesCounter - global lives counter of game.
+     * @param topLeftCorner - top left corner of renderable
+     * @param dimensions  - dimensions of renderable
+     * @param gameObjectCollection - global game object collection
      */
     public NumericLifeCounter( Counter livesCounter,
                                Vector2 topLeftCorner,
                                Vector2 dimensions,
                                GameObjectCollection gameObjectCollection){
         super(topLeftCorner, dimensions, new CounterRenderer(livesCounter));
-
-        this.livesCounter = livesCounter;
-        this.gameObjectCollection = gameObjectCollection;
     }
 
     /**
-    Overrides: update in class danogl.GameObject
-    Parameters:
-    deltaTime -
+     *
+     * @param deltaTime The time elapsed, in seconds, since the last frame. Can
+     *                  be used to determine a new position/velocity by multiplying
+     *                  this delta with the velocity/acceleration respectively
+     *                  and adding to the position/velocity:
+     *                  velocity += deltaTime*acceleration
      */
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-
-
     }
-
-
 }

@@ -204,7 +204,7 @@ public class BouncingBallGameManager extends GameManager {
                         ResetBall();
                 }
                 if(heartCounter.value()==-1){
-                        GameEnded("You lose!, play again?");
+                        GameEnded("You lose! play again?");
                 }
         }
 
