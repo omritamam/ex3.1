@@ -8,9 +8,11 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
+import gameobjects.*;
+
 import java.awt.*;
 
-public class BouncingBallGameManager extends GameManager {
+public class BrickerGameManager extends GameManager {
 
         public static final Color BORDER_COLOR = Color.CYAN;
         public static final float BORDER_WIDTH = 10;
@@ -48,7 +50,7 @@ public class BouncingBallGameManager extends GameManager {
          * @param windowTitle - string for window title
          * @param windowDimensions - pixel dimensions for game window height x width
          */
-        public BouncingBallGameManager(String windowTitle, Vector2 windowDimensions){
+        public BrickerGameManager(String windowTitle, Vector2 windowDimensions){
                 super(windowTitle, windowDimensions);
         }
 
@@ -258,6 +260,6 @@ public class BouncingBallGameManager extends GameManager {
          * @param args - NONE
          */
         public static void main(String[] args) {
-        new BouncingBallGameManager("Bouncing Ball", new Vector2(700, 500)).run();
+        new BrickerGameManager("Bouncing Ball", new Vector2(700, 500)).run();
         }
 }

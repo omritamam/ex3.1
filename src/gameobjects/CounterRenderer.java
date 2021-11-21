@@ -1,4 +1,4 @@
-package brick_strategies;
+package gameobjects;
 
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;

@@ -1,4 +1,4 @@
-package brick_strategies;
+package gameobjects;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
