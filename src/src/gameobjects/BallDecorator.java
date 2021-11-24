@@ -1,13 +1,12 @@
-package gameobjects;
+package src.gameobjects;
 
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import src.brick_strategies.CollisionStrategy;
-import src.gameobjects.Ball;
 
-public class BallDecorador extends Ball {
+
+public class BallDecorator extends Ball {
     private Vector2 windowDimensions;
     private GameObjectCollection objectCollection;
 
@@ -17,10 +16,10 @@ public class BallDecorador extends Ball {
      * @param dimensions     Width and height in window coordinates.
      * @param renderable     The renderable representing the object. Can be null, in which case
      * @param collisionSound - instance of Sound to be played when collision occurs
-     * @param windowDimensions
-     * @param objectCollection
+     * @param windowDimensions - window dimensions
+     * @param objectCollection - global object collection
      */
-    public BallDecorador(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound, Vector2 windowDimensions, GameObjectCollection objectCollection) {
+    public BallDecorator(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound, Vector2 windowDimensions, GameObjectCollection objectCollection) {
         super(topLeftCorner, dimensions, renderable, collisionSound);
         this.windowDimensions = windowDimensions;
         this.objectCollection = objectCollection;

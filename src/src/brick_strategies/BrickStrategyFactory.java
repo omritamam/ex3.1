@@ -1,4 +1,4 @@
-package brick_strategies;
+package src.brick_strategies;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
@@ -6,7 +6,6 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.util.Vector2;
 import src.BrickerGameManager;
-import src.brick_strategies.CollisionStrategy;
 
 public class BrickStrategyFactory {
     private GameObjectCollection gameObjectCollection;
@@ -26,6 +25,8 @@ public class BrickStrategyFactory {
                 return new RemoveBrickStrategy(gameObjectCollection);
             case Puck:
                 return new PuckStrategy();
+            case SplitTo3Balls:
+                return new RemoveBrickStrategyDecorator(new RemoveBrickStrategy(gameObjectCollection));
         }
         return new RemoveBrickStrategy(gameObjectCollection);
     }

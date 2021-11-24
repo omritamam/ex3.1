@@ -1,9 +1,8 @@
 package src;
-import brick_strategies.BrickStrategyFactory;
-import brick_strategies.RemoveBrickStrategy;
-import brick_strategies.Strategy;
-import gameobjects.BallDecorador;
-import src.brick_strategies.*;
+import src.brick_strategies.BrickStrategyFactory;
+import src.brick_strategies.RemoveBrickStrategy;
+import src.brick_strategies.Strategy;
+import src.gameobjects.BallDecorator;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -16,6 +15,7 @@ import danogl.util.Vector2;
 import src.gameobjects.*;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class BrickerGameManager extends GameManager {
 
@@ -150,8 +150,8 @@ public class BrickerGameManager extends GameManager {
                                         new Vector2(brick_wight, BRICK_HEIGHT),
                                         brickImage,
                                         //todo: change to random
-                                        new RemoveBrickStrategy(gameObjects()),
-                                        // brickStrategyFactory.getStrategy(Strategy.Brick),
+                                        //new RemoveBrickStrategy(gameObjects()),
+                                         brickStrategyFactory.getStrategy(Strategy.SplitTo3Balls),
                                         brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
@@ -206,8 +206,7 @@ public class BrickerGameManager extends GameManager {
         private void createBall(){
                 Renderable ballImage= imageReader.readImage("assets/ball.png", true);
                 Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
-                ball = new BallDecorador(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound,
-                        windowDimensions,gameObjects());
+                ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
                 gameObjects().addGameObject(ball);
                 ball.setCenter(windowDimensions.mult(0.5F));
                 ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));
@@ -228,13 +227,25 @@ public class BrickerGameManager extends GameManager {
         public void update(float deltaTime){
                 super.update(deltaTime);
                 isGameEnded();
+                removeObjectOutsideWindow();
+        }
+
+        private void removeObjectOutsideWindow(){
+                Iterator<GameObject> i = gameObjects().iterator();
+                while (i.hasNext()) {
+                        GameObject object = i.next();
+                        Vector2 position = object.getTopLeftCorner();
+                        if(position.x()<0 || position.x()>windowDimensions.x() ||
+                                position.y() > windowDimensions.y()+10){
+                                gameObjects().removeGameObject(object, Layer.DEFAULT);
+                        }
+                }
         }
 
         /**
          * checks if the player wins/loses and invokes corresponding methods
          */
         private void isGameEnded() {
-                double ballHeight = ball.getCenter().y();
                 if(brickCounter.value()==0){
                         GameEnded("You win!, play again?");
                 }

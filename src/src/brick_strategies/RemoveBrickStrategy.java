@@ -1,4 +1,4 @@
-package brick_strategies;
+package src.brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
@@ -25,5 +25,9 @@ public class RemoveBrickStrategy implements CollisionStrategy {
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter){
         gameObjectCollection.removeGameObject(thisObj, Layer.STATIC_OBJECTS);
         counter.decrement();
+    }
+    @Override
+    public GameObjectCollection getGameObjectCollection() {
+        return gameObjectCollection;
     }
 }
