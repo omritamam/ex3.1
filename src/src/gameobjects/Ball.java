@@ -36,8 +36,11 @@ public class Ball extends GameObject {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision){
         super.onCollisionEnter(other,collision);
-        Vector2 newVal = getVelocity().flipped(collision.getNormal());
-        setVelocity(newVal);
+        if (collision!=null){
+            Vector2 newVal = getVelocity().flipped(collision.getNormal());
+            setVelocity(newVal);
+        }
+
         if(collisionSound!=null)
             collisionSound.play();
     }

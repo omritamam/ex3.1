@@ -7,6 +7,7 @@ import danogl.util.Counter;
 import src.brick_strategies.CollisionStrategy;
 
 public class RemoveBrickStrategy implements CollisionStrategy {
+    private boolean isDecreasedCounter = false;
     protected GameObjectCollection gameObjectCollection;
     /**
      * constructor
@@ -24,7 +25,11 @@ public class RemoveBrickStrategy implements CollisionStrategy {
      */
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter){
         gameObjectCollection.removeGameObject(thisObj, Layer.STATIC_OBJECTS);
-        counter.decrement();
+        if(!isDecreasedCounter){
+            isDecreasedCounter=true;
+            counter.decrement();
+
+        }
     }
     @Override
     public GameObjectCollection getGameObjectCollection() {

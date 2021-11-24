@@ -5,7 +5,6 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 public class Paddle extends GameObject {
-    //TODO: ask about protected
     protected static final float MOVEMENT_SPEED = 300;
     protected final UserInputListener inputListener;
     protected final Vector2  windowDimensions;

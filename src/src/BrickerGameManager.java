@@ -2,7 +2,6 @@ package src;
 import src.brick_strategies.BrickStrategyFactory;
 import src.brick_strategies.RemoveBrickStrategy;
 import src.brick_strategies.Strategy;
-import src.gameobjects.BallDecorator;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -22,7 +21,7 @@ public class BrickerGameManager extends GameManager {
         public static final Color BORDER_COLOR = Color.CYAN;
         public static final float BORDER_WIDTH = 10;
 
-        public static final int BALL_SPEED = 450;
+        public static final int BALL_SPEED = 600;
         public static final int BALL_RADIUS = 50;
 
         public static final int PADDLE_MARGIN = 30;
@@ -84,10 +83,11 @@ public class BrickerGameManager extends GameManager {
                 this.soundReader = soundReader;
                 this.inputListener = inputListener;
                 this.windowController = windowController;
+                windowDimensions = windowController.getWindowDimensions();
+
                 this.brickStrategyFactory = new BrickStrategyFactory(gameObjects(),this,imageReader,
                         soundReader,inputListener,windowController,windowDimensions);
-                windowDimensions = windowController.getWindowDimensions();
-                windowController.setTargetFramerate(200);
+                windowController.setTargetFramerate(100);
 
                 initCounters();
                 createBall();
@@ -143,15 +143,15 @@ public class BrickerGameManager extends GameManager {
                 Renderable brickImage = imageReader.readImage("assets/brick.png", true);
                 float brick_wight = (windowDimensions.x()-(cols-1)*BRICK_SPACING-2*BRICK_MARGIN)/cols;
                 for(int row=0; row<rows;row++){
-                        for(int col =0; col<cols;col++){
+                        for(int col =0; col<1;col++){
                                 GameObject brick = new Brick(
                                         new Vector2(BRICK_MARGIN + col * (brick_wight + BRICK_SPACING),
                                                 row * (BRICK_HEIGHT + BRICK_SPACING) + HEART_HEIGHT + BORDER_WIDTH),
                                         new Vector2(brick_wight, BRICK_HEIGHT),
                                         brickImage,
                                         //todo: change to random
-                                        //new RemoveBrickStrategy(gameObjects()),
-                                         brickStrategyFactory.getStrategy(Strategy.SplitTo3Balls),
+                                      //  row != rows-1?new RemoveBrickStrategy(gameObjects()):
+                                         brickStrategyFactory.getStrategy(Strategy.ChangeCamera),
                                         brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
@@ -235,9 +235,10 @@ public class BrickerGameManager extends GameManager {
                 while (i.hasNext()) {
                         GameObject object = i.next();
                         Vector2 position = object.getTopLeftCorner();
-                        if(position.x()<0 || position.x()>windowDimensions.x() ||
+                        if(position.x()<-10 || position.x()>windowDimensions.x() ||
                                 position.y() > windowDimensions.y()+10){
                                 gameObjects().removeGameObject(object, Layer.DEFAULT);
+                                object.setDimensions(Vector2.ZERO);
                         }
                 }
         }
@@ -278,6 +279,6 @@ public class BrickerGameManager extends GameManager {
          */
         public static void main(String[] args) {
         new BrickerGameManager("Bouncing Ball",
-                new Vector2(700, 500)).run();
+                new Vector2(1000, 800)).run();
         }
 }
