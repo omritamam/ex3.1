@@ -2,9 +2,8 @@ package src.brick_strategies;
 
 public enum Strategy {
     AddPaddle,
-    Brick,
+    DoubleStrategy,
     ChangeCamera,
     Puck,
     RemoveBrick,
-    SplitTo3Balls
 }

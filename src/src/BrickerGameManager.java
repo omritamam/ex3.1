@@ -40,6 +40,10 @@ public class BrickerGameManager extends GameManager {
         public static final int NUMERIC_COUNTER_SIZE = 50;
         public static final String BALL_SOUND_PATH = "assets/blop_cut_silenced.wav";
         public static final String BALL_IMAGE_PATH = "assets/ball.png";
+        public static final String HEART_IMAGE_PATH = "assets/heart.png";
+        public static final String BRICK_IMAGE_PATH = "assets/brick.png";
+        public static final String BACKGROUND_IMAGE_PATH = "assets/DARK_BG2_small.jpeg";
+        public static final String PADDLE_IMAGE_PATH = "assets/paddle.png";
 
         private Ball ball;
         private Vector2 windowDimensions;
@@ -111,7 +115,7 @@ public class BrickerGameManager extends GameManager {
          * creates graphic life counter in the top right corner of the screen
          */
         private void createGraphicLifeCounter() {
-                Renderable heartImage = imageReader.readImage("assets/heart.png", true);
+                Renderable heartImage = imageReader.readImage(HEART_IMAGE_PATH, true);
 
                 GameObject GraphicLifeCounter = new GraphicLifeCounter(
                         new Vector2(windowDimensions.x()-INITIAL_HEARTS*HEART_WIDTH-BORDER_WIDTH,0),
@@ -141,7 +145,7 @@ public class BrickerGameManager extends GameManager {
          * @param cols - number of columns
          */
         private void createBricks(int rows, int cols) {
-                Renderable brickImage = imageReader.readImage("assets/brick.png", true);
+                Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH, true);
                 float brick_wight = (windowDimensions.x()-(cols-1)*BRICK_SPACING-2*BRICK_MARGIN)/cols;
                 for(int row=0; row<1;row++){
                         for(int col =0; col<cols;col++){
@@ -150,9 +154,7 @@ public class BrickerGameManager extends GameManager {
                                                 row * (BRICK_HEIGHT + BRICK_SPACING) + HEART_HEIGHT + BORDER_WIDTH),
                                         new Vector2(brick_wight, BRICK_HEIGHT),
                                         brickImage,
-                                        //todo: change to random
-                                      //  row != rows-1?new RemoveBrickStrategy(gameObjects()):
-                                         brickStrategyFactory.getStrategy(Strategy.Puck),
+                                        brickStrategyFactory.getStrategy(),
                                         brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
@@ -165,7 +167,7 @@ public class BrickerGameManager extends GameManager {
                 GameObject background = new GameObject(
                         Vector2.ZERO,
                         windowController.getWindowDimensions(),
-                        imageReader.readImage("assets/DARK_BG2_small.jpeg", false));
+                        imageReader.readImage(BACKGROUND_IMAGE_PATH, false));
                 background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
                 background.setTag("background");
                 gameObjects().addGameObject(background, Layer.BACKGROUND);
@@ -197,7 +199,7 @@ public class BrickerGameManager extends GameManager {
          * creates one user paddle
          */
         private void createUserPaddle() {
-                Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
+                Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, true);
                 Paddle userPaddle = new UserPaddle(Vector2.ZERO, new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT), paddleImage,
                         inputListener,windowDimensions,PADDLE_MARGIN);
                 userPaddle.setCenter(new Vector2(windowDimensions.x()/2, windowDimensions.y()-PADDLE_MARGIN));

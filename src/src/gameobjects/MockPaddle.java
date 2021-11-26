@@ -30,7 +30,7 @@ public class MockPaddle extends UserPaddle{
      */
     public MockPaddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                       UserInputListener inputListener, Vector2 windowDimensions, int minDistanceFromEdge,
-                      GameObjectCollection gameObjectCollection, int maxCollisions ) {
+                      GameObjectCollection gameObjectCollection, int maxCollisions) {
         super(topLeftCorner, dimensions, renderable, inputListener, windowDimensions, minDistanceFromEdge);
         this.gameObjectCollection = gameObjectCollection;
         this.maxCollisions = maxCollisions;
