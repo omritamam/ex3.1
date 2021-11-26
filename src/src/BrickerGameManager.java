@@ -38,6 +38,7 @@ public class BrickerGameManager extends GameManager {
         public static final int COLS = 8; //3
 
         public static final int NUMERIC_COUNTER_SIZE = 50;
+        public static final int STATUS_DEFINER_SPEED = BALL_SPEED;
         public static final String BALL_SOUND_PATH = "assets/blop_cut_silenced.wav";
         public static final String BALL_IMAGE_PATH = "assets/ball.png";
         public static final String HEART_IMAGE_PATH = "assets/heart.png";
@@ -251,7 +252,7 @@ public class BrickerGameManager extends GameManager {
          */
         private void isGameEnded() {
                 if(brickCounter.value()==0){
-                        GameEnded("You win!, play again?");
+                        GameEnded("You win! play again?");
                 }
                 else if(gameObjects().isLayerEmpty(Layer.DEFAULT)){
                         heartCounter.decrement();

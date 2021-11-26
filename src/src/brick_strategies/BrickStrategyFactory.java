@@ -11,6 +11,7 @@ import src.BrickerGameManager;
 import java.util.Random;
 
 public class BrickStrategyFactory {
+    private static final int MAX_STRATEGIES = 3;
     private final GameObjectCollection gameObjectCollection;
     private final BrickerGameManager gameManager;
     private final ImageReader imageReader;
@@ -53,6 +54,7 @@ public class BrickStrategyFactory {
 
     private CollisionStrategy matchStrategyToCollisionStrategy(Strategy strategy) {
         CollisionStrategy removeBrickStrategy = new RemoveBrickStrategy(gameObjectCollection);
+
         switch (strategy){
             case RemoveBrick:
                 return removeBrickStrategy;
@@ -62,8 +64,10 @@ public class BrickStrategyFactory {
                 return new AddPaddleStrategy(removeBrickStrategy,imageReader,inputListener, windowDimensions);
             case ChangeCamera:
                 return new ChangeCameraStrategy(removeBrickStrategy,windowController, gameManager);
+            case SpeedChane:
+                return new SpeedChaneStrategy(removeBrickStrategy,windowController, imageReader);
             case DoubleStrategy:
-                return GetDoubleStrategy(3, new Counter(0));
+                return GetDoubleStrategy(MAX_STRATEGIES, new Counter(0));
         }
         return removeBrickStrategy;
     }

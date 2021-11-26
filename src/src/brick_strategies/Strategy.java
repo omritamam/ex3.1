@@ -6,4 +6,5 @@ public enum Strategy {
     ChangeCamera,
     Puck,
     RemoveBrick,
+    SpeedChane
 }

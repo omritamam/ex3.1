@@ -18,9 +18,9 @@ public class AddPaddleStrategy extends RemoveBrickStrategyDecorator {
 
     public static final float DISTANCE_FROM_PADDLE_FACTOR = 0.8f;
     public static int NUM_COLLISIONS_FOR_MOCK_PADDLE_DISAPPEARANCE = 3;
-    private ImageReader imageReader;
-    private UserInputListener inputListener;
-    private Vector2 windowDimensions;
+    private final ImageReader imageReader;
+    private final UserInputListener inputListener;
+    private final Vector2 windowDimensions;
 
     /**
      * Constructor
