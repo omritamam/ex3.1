@@ -1,10 +1,9 @@
 package src.gameobjects;
-
-import danogl.GameObject;
+import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
-public class Puck extends GameObject {
+public class Puck extends Ball {
     /**
      * Construct a new GameObject instance.
      *
@@ -13,8 +12,8 @@ public class Puck extends GameObject {
      * @param dimensions    Width and height in window coordinates.
      * @param renderable    The renderable representing the object. Can be null, in which case
      */
-    public Puck(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
-        super(topLeftCorner, dimensions, renderable);
+    public Puck(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound sound) {
+        super(topLeftCorner, dimensions, renderable, sound);
         super.setTag("Puck");
 
     }

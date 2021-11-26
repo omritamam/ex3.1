@@ -5,11 +5,12 @@ import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class Ball extends GameObject {
     private final Sound collisionSound;
-
+    private Counter counter;
     /**
      * Constructor
      * @param topLeftCorner - - Position of the object, in window coordinates (pixels). Note that (0,0) is the top-left corner of the window.
@@ -24,6 +25,7 @@ public class Ball extends GameObject {
         super(topLeftCorner, dimensions, renderable);
         super.setTag("Ball");
         this.collisionSound = collisionSound;
+        counter = new Counter();
     }
 
     /**
@@ -36,13 +38,12 @@ public class Ball extends GameObject {
     @Override
     public void onCollisionEnter(GameObject other, Collision collision){
         super.onCollisionEnter(other,collision);
-        if (collision!=null){
-            Vector2 newVal = getVelocity().flipped(collision.getNormal());
-            setVelocity(newVal);
-        }
-
-        if(collisionSound!=null)
-            collisionSound.play();
+        Vector2 newVal = getVelocity().flipped(collision.getNormal());
+        setVelocity(newVal);
+        collisionSound.play();
+        counter.increment();
     }
-
+    public int getCollisionCount(){
+        return counter.value();
+    }
 }

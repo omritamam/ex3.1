@@ -1,6 +1,5 @@
 package src;
 import src.brick_strategies.BrickStrategyFactory;
-import src.brick_strategies.RemoveBrickStrategy;
 import src.brick_strategies.Strategy;
 import danogl.GameManager;
 import danogl.GameObject;
@@ -39,6 +38,8 @@ public class BrickerGameManager extends GameManager {
         public static final int COLS = 8; //3
 
         public static final int NUMERIC_COUNTER_SIZE = 50;
+        public static final String BALL_SOUND_PATH = "assets/blop_cut_silenced.wav";
+        public static final String BALL_IMAGE_PATH = "assets/ball.png";
 
         private Ball ball;
         private Vector2 windowDimensions;
@@ -142,8 +143,8 @@ public class BrickerGameManager extends GameManager {
         private void createBricks(int rows, int cols) {
                 Renderable brickImage = imageReader.readImage("assets/brick.png", true);
                 float brick_wight = (windowDimensions.x()-(cols-1)*BRICK_SPACING-2*BRICK_MARGIN)/cols;
-                for(int row=0; row<rows;row++){
-                        for(int col =0; col<1;col++){
+                for(int row=0; row<1;row++){
+                        for(int col =0; col<cols;col++){
                                 GameObject brick = new Brick(
                                         new Vector2(BRICK_MARGIN + col * (brick_wight + BRICK_SPACING),
                                                 row * (BRICK_HEIGHT + BRICK_SPACING) + HEART_HEIGHT + BORDER_WIDTH),
@@ -151,7 +152,7 @@ public class BrickerGameManager extends GameManager {
                                         brickImage,
                                         //todo: change to random
                                       //  row != rows-1?new RemoveBrickStrategy(gameObjects()):
-                                         brickStrategyFactory.getStrategy(Strategy.ChangeCamera),
+                                         brickStrategyFactory.getStrategy(Strategy.Puck),
                                         brickCounter);
                                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
                         }
@@ -204,8 +205,8 @@ public class BrickerGameManager extends GameManager {
         }
 
         private void createBall(){
-                Renderable ballImage= imageReader.readImage("assets/ball.png", true);
-                Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
+                Renderable ballImage= imageReader.readImage(BALL_IMAGE_PATH, true);
+                Sound collisionSound = soundReader.readSound(BALL_SOUND_PATH);
                 ball = new Ball(Vector2.ZERO,new Vector2(BALL_RADIUS,BALL_RADIUS),ballImage,collisionSound);
                 gameObjects().addGameObject(ball);
                 ball.setCenter(windowDimensions.mult(0.5F));

@@ -54,7 +54,6 @@ public class Paddle extends GameObject {
             transform().setTopLeftCorner(minDistanceFromEdge, transform().getTopLeftCorner().y());
         }
         else if(topLeftCorner>windowDimensions.x() - minDistanceFromEdge - getDimensions().x()) {
-
             transform().setTopLeftCorner(windowDimensions.x() - minDistanceFromEdge - getDimensions().x(),
                     transform().getTopLeftCorner().y());
         }

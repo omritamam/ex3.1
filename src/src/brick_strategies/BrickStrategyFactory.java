@@ -8,13 +8,13 @@ import danogl.util.Vector2;
 import src.BrickerGameManager;
 
 public class BrickStrategyFactory {
-    private GameObjectCollection gameObjectCollection;
-    private BrickerGameManager gameManager;
-    private ImageReader imageReader;
-    private SoundReader soundReader;
-    private UserInputListener inputListener;
-    private WindowController windowController;
-    private Vector2 windowDimensions;
+    private final GameObjectCollection gameObjectCollection;
+    private final BrickerGameManager gameManager;
+    private final ImageReader imageReader;
+    private final SoundReader soundReader;
+    private final UserInputListener inputListener;
+    private final WindowController windowController;
+    private final Vector2 windowDimensions;
 
     public BrickStrategyFactory(GameObjectCollection gameObjectCollection, BrickerGameManager gameManager,
                                 ImageReader imageReader, SoundReader soundReader,
@@ -38,15 +38,14 @@ public class BrickStrategyFactory {
             case RemoveBrick:
                 return removeBrickStrategy;
             case SplitTo3Balls:
-                return new SplitTo3Balls(removeBrickStrategy, soundReader.readSound("assets/blop_cut_silenced.wav"));
             case Puck:
-                return new PuckStrategy(removeBrickStrategy);
+                return new PuckStrategy(removeBrickStrategy,imageReader, soundReader);
             case AddPaddle:
                 return new AddPaddleStrategy(removeBrickStrategy,imageReader,inputListener, windowDimensions);
             case ChangeCamera:
                 return new ChangeCameraStrategy(removeBrickStrategy,windowController, gameManager);
         }
-        return new SplitTo3Balls(removeBrickStrategy, soundReader.readSound("assets/blop_cut_silenced.wav"));
+        return new PuckStrategy(removeBrickStrategy,imageReader, soundReader);
 
     }
 }

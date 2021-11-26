@@ -7,7 +7,8 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import src.gameobjects.TrackBallObject;
+import src.gameobjects.Ball;
+import src.gameobjects.BallCollisionCountdownAgent;
 
 public class ChangeCameraStrategy extends RemoveBrickStrategyDecorator {
 
@@ -38,8 +39,8 @@ public class ChangeCameraStrategy extends RemoveBrickStrategyDecorator {
                             windowController.getWindowDimensions()
                     )
             );
-         getGameObjectCollection().addGameObject(new TrackBallObject(otherObj,getGameObjectCollection(),gameManager),
-                 Layer.STATIC_OBJECTS);
+         getGameObjectCollection().addGameObject(new BallCollisionCountdownAgent((Ball)otherObj,this,((Ball)
+                         otherObj).getCollisionCount()), Layer.STATIC_OBJECTS);
         }
     }
     public void turnOffCameraChange(){
