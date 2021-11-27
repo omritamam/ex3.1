@@ -1,18 +1,62 @@
 omri.tamam
 315564112
 
-Classes 
+Classes
 
 - all classes as mentions in the JavaDoc.
+	gameObjects
 - CounterRenderer (extends TextRenderer)
 - UserPaddle (extends Paddle)
-Design 
+- StutusDefiner
+brick_stretagies
+- SpeedChangeStrategy  (extends RemoveBrickStrategyDecorator)
+- DoubleStrategy (implements CollisionStrategy)
+- Strategy (enum)
+- BotStrategy (extends RemoveBrickStrategy)
 
-Graphic Renderer is a single gambeObject that contains 4 gameObjects of hearts. 
-Numeric Renderer is a single gambeObject that initializes a gameObject consturctor using 
+
+Design
+
+Bricker Game
+
+gameObjects
+
+Counters
+Graphic Renderer is a single gambeObject that contains 4 gameObjects of hearts.
+	Numeric Renderer is a single gambeObject that initializes a gameObject consturctor using
 custom renderer - CounterRenderer. The Counter Renderer is an extention of TextRenderer,
-overrides the update method in order to update the counter value (as string) in each frame
+	overrides the update method in order to update the counter value (as string) in each frame
+Paddle
+Paddle extends Gameobject by the update method that restict the paddle to exceed screen edges,
+	UserPaddle extends Paddle by functionly of user input in addition to Paddle resticts from Paddle class.
+MockPaddle extends UserPaddle by functionly of dissapprane after 4 collisons.
 
-UserPaddle inhiert Paddle update method that restict the paddle to exceed screen edges,
-UserPaddle class add functionly of user input in addition to Paddle resticts from Paddle class.
-    
+	StutusDefiner
+contains a field of CollisionStrategy that implements the behavior of a collison,
+	just like the approch used in the bricks. we used BotStrategy as a specific case fof behavior.
+
+	brick_stretagies
+
+Strategy
+Strategy enum used by the factory, DoubleStrategy contains 2 strarigies.
+
+	BotStrategy
+extends RemoveBrickStrategy in order to disappear, defines the stratgy when the Puck (StutusDefiner) collied with brick.
+
+
+	Algo Questions
+1. in any iteration, the shortest tasks are assign to the shortest spots,
+	meaning that in any iteration the soultion is oprimal to i items and j spots.
+	runtime is n * log(n), using java Array.sort(..) functions and iterate on all items once.
+
+2. in any iteration the algo picks the minimum number of strps required for the from to reach i leaf.
+	Runtime is O(n).
+
+3. Dynamic prog. for fibonacci numbers problem. the algo is dynamic prog. for sub problem of how man options to reach i liters.
+	Truly there is a math forumula which runs at O(1), the runtime is O(n)
+
+4. Clssic combinatory questions, the sub - problem is how many options exists for i nodes tree.
+	In BST each node has greater nums on right and less on left. For n nodes tree we pick the root j from [1...n]
+for each root the subtrees on left and rights are [1...j-1]  [j+1...n], by dynamic prog. we have the num of options for tree of
+	j nodes and n-j-1 nodes. we multily them becahuse we can pick one any lest sub-tree for each right sub-tree.
+	Runtime is 1+2+3+4+5+...+n = O(n^2)
