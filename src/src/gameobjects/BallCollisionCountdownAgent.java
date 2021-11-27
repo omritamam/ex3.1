@@ -5,6 +5,7 @@ import danogl.util.Vector2;
 import src.brick_strategies.ChangeCameraStrategy;
 
 public class BallCollisionCountdownAgent extends GameObject {
+    public static final int BALL_COLLISIONS_UNTIL_TURNOFF = 4;
     private final Ball ball;
     private final ChangeCameraStrategy owner;
     private final int countDownValue;
@@ -23,9 +24,14 @@ public class BallCollisionCountdownAgent extends GameObject {
         this.owner = owner;
         this.countDownValue = countDownValue;
     }
+
+    /**
+     * checks if ball was collied more than 4 times and stops camera change.
+     * @param deltaTime - The time elapsed, in seconds, since the last frame.
+     */
     public void update(float deltaTime){
         super.update(deltaTime);
-        if(ball.getCollisionCount()>=countDownValue+4){
+        if(ball.getCollisionCount()>=countDownValue+ BALL_COLLISIONS_UNTIL_TURNOFF){
             owner.turnOffCameraChange();
         }
     }

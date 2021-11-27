@@ -28,17 +28,23 @@ public class StatusDefiner extends GameObject {
         setVelocity(Vector2.DOWN.mult(STATUS_DEFINER_SPEED));
     }
 
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-    }
-
+    /**
+     * Called on the first frame of a collision.
+     * @param other The GameObject with which a collision occurred.
+     * @param collision Information regarding this collision.
+     *                  A reasonable elastic behavior can be achieved with:
+     */
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this, other, new Counter());
     }
 
+    /**
+     *
+     * @param other The GameObject with which a collision occurred.
+     * @return - true if other is a Paddle
+     */
     @Override
     public boolean shouldCollideWith(GameObject other) {
         return other instanceof Paddle;

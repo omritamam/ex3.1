@@ -13,6 +13,8 @@ public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
     private static final String GOOD_CLOCK_PATH = "assets/botGood.png";
     private static final String BAD_CLOCK_PATH = "assets/botBad.png";
     private static final Vector2 BOT_DIMENSIONS = new Vector2(50,50);
+    public static final float SLOW_SPEED = 0.9f;
+    public static final float FAST_SPEED = 1.1f;
     private final WindowController windowController;
     private final ImageReader imageReader;
 
@@ -38,7 +40,7 @@ public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter) {
         super.onCollision(thisObj, otherObj, counter);
-        boolean isGood = windowController.getTimeScale() != 0.9f;
+        boolean isGood = windowController.getTimeScale() != SLOW_SPEED;
         Renderable renderer =  imageReader.readImage(isGood? GOOD_CLOCK_PATH: BAD_CLOCK_PATH, true);
 
         getGameObjectCollection().addGameObject(

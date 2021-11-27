@@ -42,6 +42,11 @@ public class Ball extends GameObject {
         collisionSound.play();
         counter.increment();
     }
+
+    /**
+     *
+     * @return - current value
+     */
     public int getCollisionCount(){
         return counter.value();
     }
