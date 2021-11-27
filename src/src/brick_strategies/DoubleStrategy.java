@@ -5,8 +5,8 @@ import danogl.collisions.GameObjectCollection;
 import danogl.util.Counter;
 
 public class DoubleStrategy implements CollisionStrategy {
-    CollisionStrategy strategy1;
-    CollisionStrategy strategy2;
+    final CollisionStrategy strategy1;
+    final CollisionStrategy strategy2;
 
     public DoubleStrategy(CollisionStrategy collisionStrategy1, CollisionStrategy collisionStrategy2) {
         strategy1= collisionStrategy1;

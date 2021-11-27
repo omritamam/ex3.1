@@ -4,7 +4,7 @@ import danogl.gui.rendering.TextRenderable;
 import danogl.util.Counter;
 
 public class CounterRenderer extends TextRenderable {
-    private Counter counter;
+    private final Counter counter;
 
     /**
      * constructor

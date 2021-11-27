@@ -2,6 +2,7 @@ package src.gameobjects;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 
@@ -19,7 +20,9 @@ public class NumericLifeCounter  extends GameObject {
                                Vector2 dimensions,
                                GameObjectCollection gameObjectCollection){
         super(topLeftCorner, dimensions, new CounterRenderer(livesCounter));
-        super.setTag("NumericLifeCounter");
+        setTag("NumericLifeCounter");
+        gameObjectCollection.addGameObject(this, Layer.STATIC_OBJECTS);
+
 
     }
 

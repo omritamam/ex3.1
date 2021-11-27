@@ -5,7 +5,7 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 public class Paddle extends GameObject {
-    protected static final float MOVEMENT_SPEED = 300;
+    protected static final float MOVEMENT_SPEED = 500;
     protected final UserInputListener inputListener;
     protected final Vector2  windowDimensions;
     protected final int minDistanceFromEdge;

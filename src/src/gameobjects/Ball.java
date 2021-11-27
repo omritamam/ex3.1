@@ -2,7 +2,6 @@ package src.gameobjects;
 
 import danogl.GameObject;
 import danogl.collisions.Collision;
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
@@ -10,7 +9,7 @@ import danogl.util.Vector2;
 
 public class Ball extends GameObject {
     private final Sound collisionSound;
-    private Counter counter;
+    private final Counter counter;
     /**
      * Constructor
      * @param topLeftCorner - - Position of the object, in window coordinates (pixels). Note that (0,0) is the top-left corner of the window.

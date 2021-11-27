@@ -10,8 +10,8 @@ import danogl.util.Vector2;
 
 public class MockPaddle extends UserPaddle{
     int ColliderCounter = 0;
-    GameObjectCollection gameObjectCollection;
-    private int maxCollisions;
+    final GameObjectCollection gameObjectCollection;
+    private final int maxCollisions;
 
     /**
      * Construct a new GameObject instance.

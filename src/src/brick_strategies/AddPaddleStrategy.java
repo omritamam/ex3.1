@@ -1,7 +1,6 @@
 package src.brick_strategies;
 
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
@@ -17,7 +16,7 @@ import static src.BrickerGameManager.*;
 public class AddPaddleStrategy extends RemoveBrickStrategyDecorator {
 
     public static final float DISTANCE_FROM_PADDLE_FACTOR = 0.8f;
-    public static int NUM_COLLISIONS_FOR_MOCK_PADDLE_DISAPPEARANCE = 3;
+    public static final int NUM_COLLISIONS_FOR_MOCK_PADDLE_DISAPPEARANCE = 3;
     private final ImageReader imageReader;
     private final UserInputListener inputListener;
     private final Vector2 windowDimensions;
@@ -42,7 +41,7 @@ public class AddPaddleStrategy extends RemoveBrickStrategyDecorator {
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter) {
         super.onCollision(thisObj,otherObj,counter);
-        Renderable paddleImage = imageReader.readImage("assets/paddle.png", true);
+        Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, true);
         Paddle mockPaddle = new MockPaddle(Vector2.ZERO,
                 new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT), paddleImage,
                 inputListener,windowDimensions,PADDLE_MARGIN,getGameObjectCollection(),
@@ -51,11 +50,6 @@ public class AddPaddleStrategy extends RemoveBrickStrategyDecorator {
                 windowDimensions.y()* DISTANCE_FROM_PADDLE_FACTOR -PADDLE_MARGIN));
         getGameObjectCollection().addGameObject(mockPaddle, Layer.STATIC_OBJECTS);
 
-    }
-
-    @Override
-    public GameObjectCollection getGameObjectCollection() {
-        return super.getGameObjectCollection();
     }
 
 }

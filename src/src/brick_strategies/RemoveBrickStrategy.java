@@ -4,11 +4,10 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.util.Counter;
-import src.brick_strategies.CollisionStrategy;
 
 public class RemoveBrickStrategy implements CollisionStrategy {
     private boolean isRemoved = false;
-    protected GameObjectCollection gameObjectCollection;
+    protected final GameObjectCollection gameObjectCollection;
     /**
      * constructor
      * @param gameObjectCollection - the global gameObects collections
@@ -20,9 +19,9 @@ public class RemoveBrickStrategy implements CollisionStrategy {
 
     /**
      * To be called on brick collision.
-     * @param thisObj
-     * @param otherObj
-     * @param counter - global brick counter.
+     * @param thisObj - the gameObject that extends the class
+     * @param otherObj - other GameObject instance participating in collision.
+     * @param counter - global brick counter
      */
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter){
         if(!isRemoved){

@@ -30,9 +30,9 @@ public class PuckStrategy extends RemoveBrickStrategyDecorator {
     }
 
     /**
-     * @param thisObj
-     * @param otherObj
-     * @param counter  - global brick counter.
+     * @param thisObj - the gameObject that extends the class
+     * @param otherObj - other GameObject instance participating in collision.
+     * @param counter - global brick counter
      */
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter) {

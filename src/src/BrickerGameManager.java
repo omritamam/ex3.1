@@ -1,6 +1,5 @@
 package src;
 import src.brick_strategies.BrickStrategyFactory;
-import src.brick_strategies.Strategy;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
@@ -35,7 +34,7 @@ public class BrickerGameManager extends GameManager {
         public static final int BRICK_SPACING = 5;
         public static final float BRICK_HEIGHT = 20;
         public static final int ROWS = 5; //4
-        public static final int COLS = 8; //3
+        public static final int COLS = 5; //3
 
         public static final int NUMERIC_COUNTER_SIZE = 50;
         public static final int STATUS_DEFINER_SPEED = BALL_SPEED;
@@ -100,7 +99,7 @@ public class BrickerGameManager extends GameManager {
                 createUserPaddle();
                 createWalls();
                 createBackground();
-                createBricks(ROWS, COLS);
+                createBricks();
                 createNumericLifeCounter();
                 createGraphicLifeCounter();
         }
@@ -132,24 +131,21 @@ public class BrickerGameManager extends GameManager {
          * creates numeric life counter in the top left corner of the screen
          */
         private void createNumericLifeCounter() {
-                GameObject NumericLifeCounter = new NumericLifeCounter(
+                new NumericLifeCounter(
                         heartCounter,
                         new Vector2(BORDER_WIDTH,0),
                         new Vector2(NUMERIC_COUNTER_SIZE, NUMERIC_COUNTER_SIZE),
                         gameObjects());
-                gameObjects().addGameObject(NumericLifeCounter, Layer.STATIC_OBJECTS);
         }
 
         /**
          * creates block of bricks at the top of the screen
-         * @param rows - number of rows
-         * @param cols - number of columns
          */
-        private void createBricks(int rows, int cols) {
+        private void createBricks() {
                 Renderable brickImage = imageReader.readImage(BRICK_IMAGE_PATH, true);
-                float brick_wight = (windowDimensions.x()-(cols-1)*BRICK_SPACING-2*BRICK_MARGIN)/cols;
-                for(int row=0; row<1;row++){
-                        for(int col =0; col<cols;col++){
+                float brick_wight = (windowDimensions.x()-(COLS -1)*BRICK_SPACING-2*BRICK_MARGIN)/ COLS;
+                for(int row = 0; row<ROWS; row++){
+                        for(int col = 0; col< COLS; col++){
                                 GameObject brick = new Brick(
                                         new Vector2(BRICK_MARGIN + col * (brick_wight + BRICK_SPACING),
                                                 row * (BRICK_HEIGHT + BRICK_SPACING) + HEART_HEIGHT + BORDER_WIDTH),
@@ -236,14 +232,23 @@ public class BrickerGameManager extends GameManager {
 
         private void removeObjectOutsideWindow(){
                 Iterator<GameObject> i = gameObjects().iterator();
+                boolean isFoundBrick = false;
                 while (i.hasNext()) {
                         GameObject object = i.next();
                         Vector2 position = object.getTopLeftCorner();
+                        if(object instanceof Brick){
+                                isFoundBrick = true;
+                        }
                         if(position.x()<-10 || position.x()>windowDimensions.x() ||
                                 position.y() > windowDimensions.y()+10){
-                                gameObjects().removeGameObject(object, Layer.DEFAULT);
+                                if(!gameObjects().removeGameObject(object, Layer.STATIC_OBJECTS)){
+                                        gameObjects().removeGameObject(object, Layer.DEFAULT);
+                                }
                                 object.setDimensions(Vector2.ZERO);
                         }
+                }
+                if(!isFoundBrick){
+                        GameEnded("You win! play again?");
                 }
         }
 
@@ -256,6 +261,7 @@ public class BrickerGameManager extends GameManager {
                 }
                 else if(gameObjects().isLayerEmpty(Layer.DEFAULT)){
                         heartCounter.decrement();
+                        setCamera(null);
                         createBall();
 
                 }
@@ -283,6 +289,6 @@ public class BrickerGameManager extends GameManager {
          */
         public static void main(String[] args) {
         new BrickerGameManager("Bouncing Ball",
-                new Vector2(1000, 800)).run();
+                new Vector2(800, 500)).run();
         }
 }

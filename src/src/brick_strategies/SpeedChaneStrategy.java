@@ -1,7 +1,6 @@
 package src.brick_strategies;
 
 import danogl.GameObject;
-import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
@@ -14,8 +13,8 @@ public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
     private static final String GOOD_CLOCK_PATH = "assets/botGood.png";
     private static final String BAD_CLOCK_PATH = "assets/botBad.png";
     private static final Vector2 BOT_DIMENSIONS = new Vector2(50,50);
-    private WindowController windowController;
-    private ImageReader imageReader;
+    private final WindowController windowController;
+    private final ImageReader imageReader;
 
     /**
     /**
@@ -30,6 +29,12 @@ public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
         this.imageReader = imageReader;
     }
 
+    /**
+     *
+     * @param thisObj - the gameObject that extends the class
+     * @param otherObj - other GameObject instance participating in collision.
+     * @param counter - global brick counter
+     */
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj, Counter counter) {
         super.onCollision(thisObj, otherObj, counter);
@@ -38,7 +43,7 @@ public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
 
         getGameObjectCollection().addGameObject(
                 new StatusDefiner(thisObj.getTopLeftCorner(),BOT_DIMENSIONS,renderer, new BotStrategy(isGood,
-                        windowController, getGameObjectCollection()), new Counter(), thisObj));
+                        windowController, getGameObjectCollection()), thisObj));
 
     }
 }
