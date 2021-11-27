@@ -1,10 +1,9 @@
-package src.gameobjects;
+package src.brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.WindowController;
 import danogl.util.Counter;
-import src.brick_strategies.RemoveBrickStrategy;
 
 import static src.brick_strategies.SpeedChaneStrategy.FAST_SPEED;
 import static src.brick_strategies.SpeedChaneStrategy.SLOW_SPEED;

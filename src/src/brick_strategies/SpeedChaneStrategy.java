@@ -6,7 +6,6 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-import src.gameobjects.BotStrategy;
 import src.gameobjects.StatusDefiner;
 
 public class SpeedChaneStrategy extends RemoveBrickStrategyDecorator{
