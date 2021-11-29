@@ -44,8 +44,8 @@ public class AddPaddleStrategy extends RemoveBrickStrategyDecorator {
         Renderable paddleImage = imageReader.readImage(PADDLE_IMAGE_PATH, true);
         Paddle mockPaddle = new MockPaddle(Vector2.ZERO,
                 new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT), paddleImage,
-                inputListener,windowDimensions,PADDLE_MARGIN,getGameObjectCollection(),
-                NUM_COLLISIONS_FOR_MOCK_PADDLE_DISAPPEARANCE );
+                inputListener,windowDimensions,getGameObjectCollection(),
+                PADDLE_MARGIN, NUM_COLLISIONS_FOR_MOCK_PADDLE_DISAPPEARANCE);
         mockPaddle.setCenter(new Vector2((float) (Math.random() * (windowDimensions.x()-BORDER_WIDTH-PADDLE_WIDTH)),
                 windowDimensions.y()* DISTANCE_FROM_PADDLE_FACTOR -PADDLE_MARGIN));
         getGameObjectCollection().addGameObject(mockPaddle, Layer.STATIC_OBJECTS);

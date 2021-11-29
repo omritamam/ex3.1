@@ -19,7 +19,7 @@ public class BrickerGameManager extends GameManager {
         public static final Color BORDER_COLOR = Color.CYAN;
         public static final float BORDER_WIDTH = 10;
 
-        public static final int BALL_SPEED = 600;
+        public static final int BALL_SPEED = 500;
         public static final int BALL_RADIUS = 50;
 
         public static final int PADDLE_MARGIN = 30;
@@ -33,8 +33,8 @@ public class BrickerGameManager extends GameManager {
         public static final int BRICK_MARGIN = 10;
         public static final int BRICK_SPACING = 5;
         public static final float BRICK_HEIGHT = 20;
-        public static final int ROWS = 5; //4
-        public static final int COLS = 5; //3
+        public static final int ROWS = 5;
+        public static final int COLS = 8;
 
         public static final int NUMERIC_COUNTER_SIZE = 50;
         public static final int STATUS_DEFINER_SPEED = BALL_SPEED;
@@ -178,19 +178,19 @@ public class BrickerGameManager extends GameManager {
                         new Vector2(windowDimensions.x()-BORDER_WIDTH,0)};
                 for(Vector2 topLeftCorner : topLeftCorners)
                 {
-                        GameObject newObject = new GameObject(
+                        GameObject wall = new GameObject(
                                         topLeftCorner,
                                         new Vector2(BORDER_WIDTH, windowDimensions.y()),
                                         new RectangleRenderable(BORDER_COLOR));
-                        newObject.setTag("Wall");
-                        gameObjects().addGameObject(newObject, Layer.STATIC_OBJECTS);
+                        wall.setTag("Wall");
+                        gameObjects().addGameObject(wall, Layer.STATIC_OBJECTS);
                 }
-                GameObject newObject = new GameObject(
+                GameObject wall = new GameObject(
                                 new Vector2(0,Math.max(HEART_HEIGHT, NUMERIC_COUNTER_SIZE)),
                                 new Vector2(windowDimensions.x(),BORDER_WIDTH),
                                 new RectangleRenderable(BORDER_COLOR));
-                newObject.setTag("Wall");
-                gameObjects().addGameObject(newObject,Layer.STATIC_OBJECTS);
+                wall.setTag("Wall");
+                gameObjects().addGameObject(wall,Layer.STATIC_OBJECTS);
         }
         /**
          * creates one user paddle
@@ -289,6 +289,6 @@ public class BrickerGameManager extends GameManager {
          */
         public static void main(String[] args) {
         new BrickerGameManager("Bouncing Ball",
-                new Vector2(800, 500)).run();
+                new Vector2(1000, 800)).run();
         }
 }

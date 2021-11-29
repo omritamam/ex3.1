@@ -18,7 +18,6 @@ public class DoubleStrategy implements CollisionStrategy {
         counter.increment();
         strategy1.onCollision(thisObj, otherObj, counter);
         strategy2.onCollision(thisObj, otherObj, counter);
-
     }
 
     @Override

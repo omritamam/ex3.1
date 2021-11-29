@@ -19,6 +19,7 @@ public class BrickStrategyFactory {
     private final UserInputListener inputListener;
     private final WindowController windowController;
     private final Vector2 windowDimensions;
+    private final Random random = new Random();
 
     public BrickStrategyFactory(GameObjectCollection gameObjectCollection, BrickerGameManager gameManager,
                                 ImageReader imageReader, SoundReader soundReader,
@@ -34,7 +35,7 @@ public class BrickStrategyFactory {
     }
 
     private Strategy randomStrategy() {
-        int pick = new Random().nextInt(Strategy.values().length);
+        int pick = random.nextInt(Strategy.values().length);
         return Strategy.values()[pick];
     }
 
@@ -56,8 +57,6 @@ public class BrickStrategyFactory {
         CollisionStrategy removeBrickStrategy = new RemoveBrickStrategy(gameObjectCollection);
 
         switch (strategy){
-            case RemoveBrick:
-                return removeBrickStrategy;
             case Puck:
                 return new PuckStrategy(removeBrickStrategy,imageReader, soundReader);
             case AddPaddle:
@@ -67,12 +66,12 @@ public class BrickStrategyFactory {
             case SpeedChane:
                 return new SpeedChaneStrategy(removeBrickStrategy,windowController, imageReader);
             case DoubleStrategy:
-                return GetDoubleStrategy(MAX_STRATEGIES, new Counter(0));
+                return getDoubleStrategy(MAX_STRATEGIES, new Counter(0));
         }
         return removeBrickStrategy;
     }
 
-    private CollisionStrategy GetDoubleStrategy(int maxStrategies, Counter currentStrategies){
+    private CollisionStrategy getDoubleStrategy(int maxStrategies, Counter currentStrategies){
         CollisionStrategy collisionStrategy1;
         CollisionStrategy collisionStrategy2;
         Strategy strategy1 = randomStrategy();
@@ -81,9 +80,9 @@ public class BrickStrategyFactory {
                 strategy1 = randomStrategy();
             }
             collisionStrategy1 = matchStrategyToCollisionStrategy(strategy1);
-            currentStrategies.decrement();
+            currentStrategies.increment();
         } else {
-            collisionStrategy1 = GetDoubleStrategy(currentStrategies.value()-1,currentStrategies);
+            collisionStrategy1 = getDoubleStrategy(maxStrategies-currentStrategies.value()-1,currentStrategies);
         }
 
         Strategy strategy2 = randomStrategy();
@@ -92,9 +91,9 @@ public class BrickStrategyFactory {
                 strategy2 = randomStrategy();
             }
             collisionStrategy2 = matchStrategyToCollisionStrategy(strategy2);
-            currentStrategies.decrement();
+            currentStrategies.increment();
         } else {
-            collisionStrategy2 = GetDoubleStrategy(maxStrategies-1,currentStrategies);
+            collisionStrategy2 = getDoubleStrategy(maxStrategies - currentStrategies.value(),currentStrategies);
         }
         return new DoubleStrategy(collisionStrategy1, collisionStrategy2);
     }
