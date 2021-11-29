@@ -9,9 +9,7 @@
         <element id="dir-copy" path="$PROJECT_DIR$/src/src" />
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/README" />
-      <element id="directory" name="algo_questions">
-        <element id="dir-copy" path="$PROJECT_DIR$/algo_questions/src" />
-      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/algo_questions/src" />
     </root>
   </artifact>
 </component>

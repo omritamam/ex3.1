@@ -7,13 +7,14 @@ import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
 import danogl.util.Counter;
 import danogl.util.Vector2;
+import src.BrickerGameManager;
 import src.gameobjects.Ball;
 import src.gameobjects.BallCollisionCountdownAgent;
 
 public class ChangeCameraStrategy extends RemoveBrickStrategyDecorator {
 
 
-    private final GameManager gameManager;
+    private final BrickerGameManager gameManager;
     private final WindowController windowController;
     /**
      * Constructor
@@ -21,7 +22,7 @@ public class ChangeCameraStrategy extends RemoveBrickStrategyDecorator {
      * @param toBeDecorated - Collision strategy object to be decorated.
      */
     public ChangeCameraStrategy(CollisionStrategy toBeDecorated, WindowController windowController,
-                                GameManager gameManager) {
+                                BrickerGameManager gameManager) {
         super(toBeDecorated);
         this.gameManager = gameManager;
         this.windowController = windowController;
